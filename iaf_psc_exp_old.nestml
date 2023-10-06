@@ -31,11 +31,11 @@ References
        networks with frequency-dependent synapses. The Journal of Neuroscience,
        20, RC50:1-5. URL: https://infoscience.epfl.ch/record/183402
 
-.. [2] Diesmann M, Gewaltig MO, Rotter S, Aertsen A (2001). State space analysis 
+.. [2] Diesmann M, Gewaltig MO, Rotter S, Aertsen A (2001). State space analysis
        of synchronous spiking in cortical neural networks. Neurocomputing, 38, 565-571.
 
-.. [3] Morrison A, Diesmann M (2008). Maintaining causality in discrete time neuronal 
-       network simulations. Lectures in Supercomputational Neurosciences: Dynamics in 
+.. [3] Morrison A, Diesmann M (2008). Maintaining causality in discrete time neuronal
+       network simulations. Lectures in Supercomputational Neurosciences: Dynamics in
        Complex Brain Networks, 267-278.
 
 """
@@ -50,7 +50,7 @@ neuron iaf_psc_exp:
     kernel I_kernel_exc = exp(-t / tau_syn_exc)
     kernel I_kernel_inh = exp(-t / tau_syn_inh)
 
-    recordable inline I_syn pA = convolve(I_kernel_exc, ExcInput) * pA - convolve(I_kernel_inh, InhInput) * pA
+    recordable inline I_syn pA = convolve(I_kernel_exc, ExcInput)  - convolve(I_kernel_inh, InhInput)
 
     V_m' = - (V_m - E_L) / tau_m + (I_syn + I_e + IStim) / C_m
 
@@ -70,8 +70,8 @@ neuron iaf_psc_exp:
 
   input:
 
-    ExcInput    <- excitatory spike
-    InhInput    <- inhibitory spike
+    ExcInput   pA <- excitatory spike
+    InhInput   pA <- inhibitory spike
     IStim    pA <- continuous
 
   output:
